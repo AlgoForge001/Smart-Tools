@@ -1,5 +1,5 @@
 /* ════════════════════════════════════════════════════════
-   SmartTools — Vanilla JS
+   MultiTools — Vanilla JS
    21 utility tools + search + modal system
    ════════════════════════════════════════════════════════ */
 
@@ -283,7 +283,7 @@ HSL: hsl(354, 76%, 60%)</div>`;
     // 9 — Text to Speech
     case 'text-to-speech': return `
       <label>Text to Speak</label>
-      <textarea id="ttsInput" rows="4" placeholder="Hello, welcome to SmartTools!"></textarea>
+      <textarea id="ttsInput" rows="4" placeholder="Hello, welcome to MultiTools!"></textarea>
       <label>Voice</label>
       <select id="ttsVoice"></select>
       <div class="modal-row">
