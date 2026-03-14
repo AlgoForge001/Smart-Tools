@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SmartTools — Free Online Developer & Utility Tools</title>
+  <meta name="description"
+    content="Simple, fast, and powerful free online tools for developers, students, and creators. Age calculator, QR generator, password tools, JSON formatter and more." />
+  <link rel="stylesheet" href="style.css" />
+  <!-- Google Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <!-- QR Code library (lightweight, no-framework) -->
+  <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+</head>
+
+<body>
+
+  <!-- ═══════════════════  NAVBAR  ═══════════════════ -->
+  <nav id="navbar" class="navbar">
+    <div class="nav-container">
+      <a href="#" class="logo" aria-label="Home">
+        <span class="logo-icon">⚡</span> Smart<span class="logo-accent">Tools</span>
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#home" class="nav-link active">Home</a></li>
+        <li><a href="#tools" class="nav-link">Tools</a></li>
+        <li><a href="#about" class="nav-link">About</a></li>
+        <li><a href="#contact" class="nav-link">Contact</a></li>
+      </ul>
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+        <span class="theme-icon" id="themeIcon">🌙</span>
+      </button>
+      <button class="hamburger" id="hamburger" aria-label="Toggle navigation">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ═══════════════════  HERO  ═══════════════════ -->
+  <header id="home" class="hero">
+    <div class="hero-glow"></div>
+    <div class="hero-content">
+      <h1 class="hero-title">Free Online Developer &amp; Utility Tools</h1>
+      <p class="hero-subtitle">Simple, fast, and powerful tools for developers, students, and creators.</p>
+      <div class="search-wrapper">
+        <input type="text" id="heroSearch" class="search-input" placeholder="Search tools… (e.g. password, QR, JSON)"
+          autocomplete="off" />
+        <span class="search-icon">🔍</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ═══════════════════  TOOLS GRID  ═══════════════════ -->
+  <section id="tools" class="tools-section">
+    <h2 class="section-title">Our Tools</h2>
+    <p class="section-subtitle">Pick a tool and get to work — everything runs right in your browser.</p>
+    <div class="tools-grid" id="toolsGrid">
+      <!-- Cards injected by JS -->
+    </div>
+    <p class="no-results" id="noResults">No matching tools found.</p>
+  </section>
+
+  <!-- ═══════════════════  ABOUT  ═══════════════════ -->
+  <section id="about" class="about-section">
+    <div class="about-container">
+      <h2 class="section-title">About SmartTools</h2>
+      <p class="about-text">SmartTools is a free, open-source collection of developer and everyday utility tools that
+        run 100 % in your browser — no sign-ups, no servers, no tracking. Built with using pure HTML, CSS &amp;
+        JavaScript.</p>
+      <div class="about-stats">
+        <div class="stat-card"><span class="stat-number">21</span><span class="stat-label">Tools</span></div>
+        <div class="stat-card"><span class="stat-number">0</span><span class="stat-label">Ads</span></div>
+        <div class="stat-card"><span class="stat-number">100%</span><span class="stat-label">Free</span></div>
+        <div class="stat-card"><span class="stat-number">∞</span><span class="stat-label">Uses</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════  CONTACT  ═══════════════════ -->
+  <section id="contact" class="contact-section">
+    <div class="contact-container">
+      <h2 class="section-title">Contact Us</h2>
+      <p class="contact-text">Have a suggestion or found a bug? Drop us a message.</p>
+      <form id="contactForm" class="contact-form">
+        <input type="text" name="name" placeholder="Your Name" required />
+        <input type="email" name="email" placeholder="Your Email" required />
+        <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
+        <button type="submit" class="btn btn-primary" id="contactBtn">Send Message</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- ═══════════════════  FOOTER  ═══════════════════ -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-col">
+        <h3><span class="logo-icon">⚡</span> Smart<span class="logo-accent">Tools</span></h3>
+        <p>Free online utility tools for everyone.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#tools">Tools</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Popular Tools</h4>
+        <ul>
+          <li><a href="#" onclick="openTool('qr-code-generator');return false;">QR Code Generator</a></li>
+          <li><a href="#" onclick="openTool('password-generator');return false;">Password Generator</a></li>
+          <li><a href="#" onclick="openTool('json-formatter');return false;">JSON Formatter</a></li>
+          <li><a href="#" onclick="openTool('base64-encoder');return false;">Base64 Encoder</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 SmartTools. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- ═══════════════════  MODAL OVERLAY  ═══════════════════ -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal" id="modal">
+      <button class="modal-close" id="modalClose" aria-label="Close modal">&times;</button>
+      <h2 class="modal-title" id="modalTitle"></h2>
+      <div class="modal-body" id="modalBody"></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════  TOAST  ═══════════════════ -->
+  <div class="toast" id="toast"></div>
+
+  <script src="script.js"></script>
+</body>
+
+</html>
