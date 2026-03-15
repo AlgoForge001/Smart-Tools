@@ -54,12 +54,12 @@ const TOOLS = [
   { id: 'image-compressor', category: 'general', svg: svgs.compress, title: 'Image Compressor', desc: 'Compress images in-browser to reduce file size.' },
   { id: 'url-shortener', category: 'general', svg: svgs.link, title: 'URL Shortener', desc: 'Shorten long URLs using is.gd — free & instant.' },
   { id: 'password-strength', category: 'general', svg: svgs.shield, title: 'Password Strength Checker', desc: 'Check how strong your password really is.' },
-  { id: 'ai-text-summarizer', category: 'ai', svg: svgs.bot, title: 'AI Text Summarizer', desc: 'Summarize long text into key sentences instantly.' },
-  { id: 'ai-grammar-checker', category: 'ai', svg: svgs.aiGrammar, title: 'AI Grammar Checker', desc: 'Check your text for grammar, spelling, and style errors.' },
-  { id: 'ai-blog-title-generator', category: 'ai', svg: svgs.aiIdea, title: 'AI Blog Title Generator', desc: 'Generate catchy and SEO-friendly blog titles.' },
-  { id: 'ai-resume-generator', category: 'ai', svg: svgs.aiResume, title: 'AI Resume Generator', desc: 'Create professional resumes tailored to job descriptions.' },
-  { id: 'ai-email-generator', category: 'ai', svg: svgs.aiEmail, title: 'AI Email Generator', desc: 'Draft professional emails quickly and effectively.' },
-  { id: 'ai-caption-generator', category: 'ai', svg: svgs.aiCaption, title: 'AI Caption Generator', desc: 'Generate engaging captions for your social media posts.' }
+  { id: 'ai-text-summarizer', category: 'ai', svg: svgs.bot, title: 'Text Summarizer', desc: 'Summarize long text into key sentences instantly.' },
+  { id: 'ai-grammar-checker', category: 'ai', svg: svgs.aiGrammar, title: 'Grammar Checker', desc: 'Check your text for grammar, spelling, and style errors.' },
+  { id: 'ai-blog-title-generator', category: 'ai', svg: svgs.aiIdea, title: 'Blog Title Generator', desc: 'Generate catchy and SEO-friendly blog titles.' },
+  { id: 'ai-resume-generator', category: 'ai', svg: svgs.aiResume, title: 'Resume Generator', desc: 'Create professional resumes tailored to job descriptions.' },
+  { id: 'ai-email-generator', category: 'ai', svg: svgs.aiEmail, title: 'Email Generator', desc: 'Draft professional emails quickly and effectively.' },
+  { id: 'ai-caption-generator', category: 'ai', svg: svgs.aiCaption, title: 'Caption Generator', desc: 'Generate engaging captions for your social media posts.' }
 ];
 
 // ──────────────  DOM REFS  ──────────────
@@ -408,7 +408,7 @@ HSL: hsl(354, 76%, 60%)</div>`;
       <button class="btn btn-primary" onclick="genNames()">Generate Names</button>
       <div class="result-box" id="rnResult"><button class="copy-btn" onclick="copyResult('rnResult')">Copy</button></div>`;
 
-    // 17 — AI Text Summarizer
+    // 17 — Text Summarizer
     case 'ai-text-summarizer': return `
       <label>Paste your text</label>
       <textarea id="aiInput" rows="7" placeholder="Paste a long article, essay, or paragraph here…"></textarea>
@@ -455,35 +455,35 @@ HSL: hsl(354, 76%, 60%)</div>`;
       <div class="strength-bar-container" style="height:8px;background:var(--surface);border-radius:4px;margin-bottom:16px;overflow:hidden;"><div id="psBar" style="height:100%;width:0%;border-radius:4px;transition:width .3s,background .3s;"></div></div>
       <div class="result-box" id="psResult"><button class="copy-btn" onclick="copyResult('psResult')">Copy</button></div>`;
 
-    // 22 - AI Grammar Checker
+    // 22 - Grammar Checker
     case 'ai-grammar-checker': return `
       <label>Paste your text</label>
       <textarea id="aiGrammarInput" rows="7" placeholder="Type or paste text to check..."></textarea>
       <button class="btn btn-primary" onclick="grammarCheck()">Check Grammar</button>
       <div class="result-box" id="aiGrammarResult"><button class="copy-btn" onclick="copyResult('aiGrammarResult')">Copy</button></div>`;
 
-    // 23 - AI Blog Title Generator
+    // 23 - Blog Title Generator
     case 'ai-blog-title-generator': return `
       <label>Topic or Keywords</label>
       <input type="text" id="aiBlogInput" placeholder="e.g., healthy eating routines" />
       <button class="btn btn-primary" onclick="blogTitleGen()">Generate Titles</button>
       <div class="result-box" id="aiBlogResult"><button class="copy-btn" onclick="copyResult('aiBlogResult')">Copy</button></div>`;
 
-    // 24 - AI Resume Generator
+    // 24 - Resume Generator
     case 'ai-resume-generator': return `
       <label>Job Title / Summary of experience</label>
       <textarea id="aiResumeInput" rows="5" placeholder="e.g., Frontend developer with 3 years React experience..."></textarea>
       <button class="btn btn-primary" onclick="resumeGen()">Generate Resume Draft</button>
       <div class="result-box" id="aiResumeResult"><button class="copy-btn" onclick="copyResult('aiResumeResult')">Copy</button></div>`;
 
-    // 25 - AI Email Generator
+    // 25 - Email Generator
     case 'ai-email-generator': return `
       <label>Email Details (To, Purpose, Tone)</label>
       <textarea id="aiEmailInput" rows="4" placeholder="e.g., To John, asking for an urgent meeting tomorrow, professional tone"></textarea>
       <button class="btn btn-primary" onclick="emailGen()">Generate Email</button>
       <div class="result-box" id="aiEmailResult"><button class="copy-btn" onclick="copyResult('aiEmailResult')">Copy</button></div>`;
 
-    // 26 - AI Caption Generator
+    // 26 - Caption Generator
     case 'ai-caption-generator': return `
       <label>Describe the photo</label>
       <input type="text" id="aiCaptionInput" placeholder="e.g., A sunset at the beach with friends" />
@@ -849,7 +849,7 @@ function genNames() {
   setResult('rnResult', names.join('\n'));
 }
 
-// ── 17. AI Text Summarizer (extractive) ──
+// ── 17. Text Summarizer (extractive) ──
 function summarizeText() {
   const text = $('#aiInput').value.trim();
   const numSentences = Math.max(1, +$('#aiSentences').value || 3);
@@ -1077,35 +1077,35 @@ function setResult(id, text) {
   el.style.display = 'block';
 }
 
-// ── 22. AI Grammar Checker ──
+// ── 22. Grammar Checker ──
 function grammarCheck() {
   const text = $('#aiGrammarInput').value.trim();
   if (!text) return showToast('Paste some text first.');
-  setResult('aiGrammarResult', '✨ No obvious grammar errors found!\n\n(Note: This is a simulated response since this runs fully in-browser without an actual AI backend.)');
+  setResult('aiGrammarResult', '✨ No obvious grammar errors found!\n\n(Note: This is a simulated response since this runs fully in-browser without an actual backend.)');
 }
 
-// ── 23. AI Blog Title Generator ──
+// ── 23. Blog Title Generator ──
 function blogTitleGen() {
   const topic = $('#aiBlogInput').value.trim();
   if (!topic) return showToast('Enter a topic first.');
   setResult('aiBlogResult', `💡 5 Title Ideas for "${topic}":\n\n1. The Ultimate Guide to ${topic}\n2. How ${topic} Will Change Your Life\n3. 10 Secrets About ${topic} You Need to Know\n4. Why Everyone is Talking About ${topic}\n5. Mastering ${topic} in 2026`);
 }
 
-// ── 24. AI Resume Generator ──
+// ── 24. Resume Generator ──
 function resumeGen() {
   const input = $('#aiResumeInput').value.trim();
   if (!input) return showToast('Enter your details first.');
-  setResult('aiResumeResult', `📄 AI Resume Outline generated based on your input:\n\n**Professional Summary**\n${input.split('.')[0]}\n\n**Key Skills**\n- Leadership\n- Problem Solving\n- Time Management\n\n**Experience**\n- Relevant Role (2023 - Present)\n   * Handled core responsibilities derived from "${input.split(' ')[0]}"`);
+  setResult('aiResumeResult', `📄 Resume Outline generated based on your input:\n\n**Professional Summary**\n${input.split('.')[0]}\n\n**Key Skills**\n- Leadership\n- Problem Solving\n- Time Management\n\n**Experience**\n- Relevant Role (2023 - Present)\n   * Handled core responsibilities derived from "${input.split(' ')[0]}"`);
 }
 
-// ── 25. AI Email Generator ──
+// ── 25. Email Generator ──
 function emailGen() {
   const input = $('#aiEmailInput').value.trim();
   if (!input) return showToast('Enter email context first.');
   setResult('aiEmailResult', `📧 Generated Email Draft:\n\nSubject: Following up on your request\n\nHello,\n\nI am writing to you regarding: "${input}". Please let me know if we can discuss this further at a convenient time.\n\nBest regards,\n[Your Name]`);
 }
 
-// ── 26. AI Caption Generator ──
+// ── 26. Caption Generator ──
 function captionGen() {
   const text = $('#aiCaptionInput').value.trim();
   if (!text) return showToast('Describe your photo first.');
