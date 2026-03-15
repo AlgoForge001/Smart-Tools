@@ -313,7 +313,8 @@ input, textarea, select {
 }
 .tool-card:hover::before { opacity: 1; }
 
-.tool-emoji { font-size: 2rem; }
+.tool-emoji { font-size: 2rem; display: flex; align-items: center; justify-content: center; }
+.tool-emoji svg { width: 100%; height: 100%; display: block; }
 
 .tool-title {
   font-size: 1.15rem;

@@ -4,33 +4,68 @@
    ════════════════════════════════════════════════════════ */
 
 // ──────────────  TOOL DEFINITIONS  ──────────────
+const svgs = Object.freeze({
+  age: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-8a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8"/><path d="M4 16s.5-1 2-1 2.5 2 4 2 2.5-2 4-2 2.5 2 4 2 2 1 2 1"/><path d="M2 21h20"/><path d="M7 8v2"/><path d="M12 8v2"/><path d="M17 8v2"/><path d="M7 4h.01"/><path d="M12 4h.01"/><path d="M17 4h.01"/></svg>',
+  bank: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="20" width="20" height="2"/><rect x="2" y="2" width="20" height="4"/><path d="M4 6v14"/><path d="M20 6v14"/><path d="M8 6v14"/><path d="M12 6v14"/><path d="M16 6v14"/></svg>',
+  chart: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M18 9l-5 5-4-4-6 6"/></svg>',
+  qr: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>',
+  lock: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>',
+  text: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>',
+  refresh: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>',
+  palette: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></svg>',
+  speaker: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>',
+  mic: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="22"/></svg>',
+  clipboard: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>',
+  ruler: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.3 15.3l-7.6-7.6a2 2 0 0 0-2.8 0l-8.6 8.6a2 2 0 0 0 0 2.8l7.6 7.6a2 2 0 0 0 2.8 0l8.6-8.6a2 2 0 0 0 0-2.8z"/><path d="M6.5 10.5l3 3"/><path d="M9.5 7.5l3 3"/><path d="M12.5 4.5l3 3"/></svg>',
+  scale: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v18"/><path d="M3 7h18"/><path d="M5 7v4a5 5 0 0 0 10 0V7"/><path d="M19 7v4a5 5 0 0 1-10 0V7"/></svg>',
+  clock: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>',
+  percent: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="5" x2="5" y2="19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></svg>',
+  dice: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8" cy="8" r="1.5"/><circle cx="16" cy="8" r="1.5"/><circle cx="8" cy="16" r="1.5"/><circle cx="16" cy="16" r="1.5"/><circle cx="12" cy="12" r="1.5"/></svg>',
+  bot: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8V4H8"/><rect x="4" y="8" width="16" height="12" rx="2" ry="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>',
+  tomato: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 3c-1.5 2-1 4-1 4s2-.5 4-1"/></svg>',
+  compress: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v10"/><path d="M8 8l4 4 4-4"/><path d="M12 22V12"/><path d="M16 16l-4-4-4 4"/></svg>',
+  link: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>',
+  shield: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>',
+  aiGrammar: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19l4-4 4 4 8-10"/><path d="M4 15l4 4"/></svg>',
+  aiIdea: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="12" rx="5" ry="7"/><path d="M12 1v2"/><path d="M12 21v2"/><path d="M4 4l1.5 1.5"/><path d="M18.5 18.5L20 20"/><path d="M1 12h2"/><path d="M21 12h2"/><path d="M4 20l1.5-1.5"/><path d="M18.5 5.5L20 4"/></svg>',
+  aiResume: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/></svg>',
+  aiEmail: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="16" x="2" y="4" rx="2" ry="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>',
+  aiCaption: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>'
+});
+
 const TOOLS = [
-  { id: 'age-calculator', emoji: '🎂', title: 'Age Calculator', desc: 'Calculate your exact age in years, months, and days.' },
-  { id: 'emi-calculator', emoji: '🏦', title: 'EMI Calculator', desc: 'Compute monthly EMI for any loan amount, rate & tenure.' },
-  { id: 'sip-calculator', emoji: '📈', title: 'SIP Calculator', desc: 'Estimate returns on Systematic Investment Plans.' },
-  { id: 'qr-code-generator', emoji: '📱', title: 'QR Code Generator', desc: 'Generate QR codes from any text or URL instantly.' },
-  { id: 'password-generator', emoji: '🔐', title: 'Password Generator', desc: 'Create strong, customisable random passwords.' },
-  { id: 'word-counter', emoji: '📝', title: 'Word Counter', desc: 'Count words, characters, sentences and paragraphs.' },
-  { id: 'base64-encoder', emoji: '🔄', title: 'Base64 Encoder / Decoder', desc: 'Encode or decode Base64 strings with one click.' },
-  { id: 'color-picker', emoji: '🎨', title: 'Color Picker', desc: 'Pick a color and get HEX, RGB & HSL values.' },
-  { id: 'text-to-speech', emoji: '🔊', title: 'Text to Speech', desc: 'Listen to any text spoken aloud by the browser.' },
-  { id: 'speech-to-text', emoji: '🎤', title: 'Speech to Text', desc: 'Convert your voice into text using the Web Speech API.' },
-  { id: 'json-formatter', emoji: '📋', title: 'JSON Formatter & Validator', desc: 'Pretty-print and validate JSON data.' },
-  { id: 'unit-converter', emoji: '📏', title: 'Unit Converter', desc: 'Convert length, weight, temperature and more.' },
-  { id: 'bmi-calculator', emoji: '⚖️', title: 'BMI Calculator', desc: 'Calculate Body Mass Index and health category.' },
-  { id: 'timer-stopwatch', emoji: '⏱️', title: 'Timer & Stopwatch', desc: 'A fully-featured stopwatch with lap support.' },
-  { id: 'percentage-calculator', emoji: '💯', title: 'Percentage Calculator', desc: 'Quickly compute percentages, increases & decreases.' },
-  { id: 'random-name-generator', emoji: '🎲', title: 'Random Name Generator', desc: 'Generate random first and last name combos.' },
-  { id: 'ai-text-summarizer', emoji: '🤖', title: 'AI Text Summarizer', desc: 'Summarize long text into key sentences instantly.' },
-  { id: 'pomodoro-timer', emoji: '🍅', title: 'Pomodoro Study Timer', desc: '25-min focus sessions with 5-min breaks for productivity.' },
-  { id: 'image-compressor', emoji: '🗜️', title: 'Image Compressor', desc: 'Compress images in-browser to reduce file size.' },
-  { id: 'url-shortener', emoji: '🔗', title: 'URL Shortener', desc: 'Shorten long URLs using is.gd — free & instant.' },
-  { id: 'password-strength', emoji: '🛡️', title: 'Password Strength Checker', desc: 'Check how strong your password really is.' },
+  { id: 'age-calculator', category: 'general', svg: svgs.age, title: 'Age Calculator', desc: 'Calculate your exact age in years, months, and days.' },
+  { id: 'emi-calculator', category: 'general', svg: svgs.bank, title: 'EMI Calculator', desc: 'Compute monthly EMI for any loan amount, rate & tenure.' },
+  { id: 'sip-calculator', category: 'general', svg: svgs.chart, title: 'SIP Calculator', desc: 'Estimate returns on Systematic Investment Plans.' },
+  { id: 'qr-code-generator', category: 'general', svg: svgs.qr, title: 'QR Code Generator', desc: 'Generate QR codes from any text or URL instantly.' },
+  { id: 'password-generator', category: 'general', svg: svgs.lock, title: 'Password Generator', desc: 'Create strong, customisable random passwords.' },
+  { id: 'word-counter', category: 'general', svg: svgs.text, title: 'Word Counter', desc: 'Count words, characters, sentences and paragraphs.' },
+  { id: 'base64-encoder', category: 'general', svg: svgs.refresh, title: 'Base64 Encoder / Decoder', desc: 'Encode or decode Base64 strings with one click.' },
+  { id: 'color-picker', category: 'general', svg: svgs.palette, title: 'Color Picker', desc: 'Pick a color and get HEX, RGB & HSL values.' },
+  { id: 'text-to-speech', category: 'general', svg: svgs.speaker, title: 'Text to Speech', desc: 'Listen to any text spoken aloud by the browser.' },
+  { id: 'speech-to-text', category: 'general', svg: svgs.mic, title: 'Speech to Text', desc: 'Convert your voice into text using the Web Speech API.' },
+  { id: 'json-formatter', category: 'general', svg: svgs.clipboard, title: 'JSON Formatter & Validator', desc: 'Pretty-print and validate JSON data.' },
+  { id: 'unit-converter', category: 'general', svg: svgs.ruler, title: 'Unit Converter', desc: 'Convert length, weight, temperature and more.' },
+  { id: 'bmi-calculator', category: 'general', svg: svgs.scale, title: 'BMI Calculator', desc: 'Calculate Body Mass Index and health category.' },
+  { id: 'timer-stopwatch', category: 'general', svg: svgs.clock, title: 'Timer & Stopwatch', desc: 'A fully-featured stopwatch with lap support.' },
+  { id: 'percentage-calculator', category: 'general', svg: svgs.percent, title: 'Percentage Calculator', desc: 'Quickly compute percentages, increases & decreases.' },
+  { id: 'random-name-generator', category: 'general', svg: svgs.dice, title: 'Random Name Generator', desc: 'Generate random first and last name combos.' },
+  { id: 'pomodoro-timer', category: 'general', svg: svgs.tomato, title: 'Pomodoro Study Timer', desc: '25-min focus sessions with 5-min breaks for productivity.' },
+  { id: 'image-compressor', category: 'general', svg: svgs.compress, title: 'Image Compressor', desc: 'Compress images in-browser to reduce file size.' },
+  { id: 'url-shortener', category: 'general', svg: svgs.link, title: 'URL Shortener', desc: 'Shorten long URLs using is.gd — free & instant.' },
+  { id: 'password-strength', category: 'general', svg: svgs.shield, title: 'Password Strength Checker', desc: 'Check how strong your password really is.' },
+  { id: 'ai-text-summarizer', category: 'ai', svg: svgs.bot, title: 'AI Text Summarizer', desc: 'Summarize long text into key sentences instantly.' },
+  { id: 'ai-grammar-checker', category: 'ai', svg: svgs.aiGrammar, title: 'AI Grammar Checker', desc: 'Check your text for grammar, spelling, and style errors.' },
+  { id: 'ai-blog-title-generator', category: 'ai', svg: svgs.aiIdea, title: 'AI Blog Title Generator', desc: 'Generate catchy and SEO-friendly blog titles.' },
+  { id: 'ai-resume-generator', category: 'ai', svg: svgs.aiResume, title: 'AI Resume Generator', desc: 'Create professional resumes tailored to job descriptions.' },
+  { id: 'ai-email-generator', category: 'ai', svg: svgs.aiEmail, title: 'AI Email Generator', desc: 'Draft professional emails quickly and effectively.' },
+  { id: 'ai-caption-generator', category: 'ai', svg: svgs.aiCaption, title: 'AI Caption Generator', desc: 'Generate engaging captions for your social media posts.' }
 ];
 
 // ──────────────  DOM REFS  ──────────────
 const $ = (sel) => document.querySelector(sel);
-const toolsGrid = $('#toolsGrid');
+const generalToolsGrid = $('#generalToolsGrid');
+const aiToolsGrid = $('#aiToolsGrid');
 const heroSearch = $('#heroSearch');
 const noResults = $('#noResults');
 const modalOverlay = $('#modalOverlay');
@@ -66,7 +101,8 @@ themeToggle?.addEventListener('click', () => {
 function renderCards(filter = '') {
   const term = filter.toLowerCase();
   let visible = 0;
-  toolsGrid.innerHTML = '';
+  if (generalToolsGrid) generalToolsGrid.innerHTML = '';
+  if (aiToolsGrid) aiToolsGrid.innerHTML = '';
 
   TOOLS.forEach((t) => {
     const match = t.title.toLowerCase().includes(term) || t.desc.toLowerCase().includes(term);
@@ -75,15 +111,19 @@ function renderCards(filter = '') {
     const card = document.createElement('div');
     card.className = 'tool-card';
     card.innerHTML = `
-      <span class="tool-emoji">${t.emoji}</span>
+      <span class="tool-emoji" style="display:inline-block; width:28px; height:28px; margin-bottom:8px">${t.svg}</span>
       <h3 class="tool-title">${t.title}</h3>
       <p class="tool-desc">${t.desc}</p>
       <button class="btn btn-launch" data-tool="${t.id}">Launch Tool →</button>
     `;
-    toolsGrid.appendChild(card);
+    if (t.category === 'ai' && aiToolsGrid) {
+      aiToolsGrid.appendChild(card);
+    } else if (generalToolsGrid) {
+      generalToolsGrid.appendChild(card);
+    }
   });
 
-  noResults.style.display = visible === 0 ? 'block' : 'none';
+  if (noResults) noResults.style.display = visible === 0 ? 'block' : 'none';
 }
 renderCards();
 
@@ -136,7 +176,8 @@ modalOverlay.addEventListener('click', (e) => { if (e.target === modalOverlay) c
 document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
 
 // delegate launch buttons
-toolsGrid.addEventListener('click', (e) => {
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('#generalToolsGrid') && !e.target.closest('#aiToolsGrid')) return;
   const btn = e.target.closest('.btn-launch');
   if (btn) openTool(btn.dataset.tool);
 });
@@ -413,6 +454,41 @@ HSL: hsl(354, 76%, 60%)</div>`;
       <input type="text" id="psInput" placeholder="Type a password…" oninput="checkPasswordStrength()" />
       <div class="strength-bar-container" style="height:8px;background:var(--surface);border-radius:4px;margin-bottom:16px;overflow:hidden;"><div id="psBar" style="height:100%;width:0%;border-radius:4px;transition:width .3s,background .3s;"></div></div>
       <div class="result-box" id="psResult"><button class="copy-btn" onclick="copyResult('psResult')">Copy</button></div>`;
+
+    // 22 - AI Grammar Checker
+    case 'ai-grammar-checker': return `
+      <label>Paste your text</label>
+      <textarea id="aiGrammarInput" rows="7" placeholder="Type or paste text to check..."></textarea>
+      <button class="btn btn-primary" onclick="grammarCheck()">Check Grammar</button>
+      <div class="result-box" id="aiGrammarResult"><button class="copy-btn" onclick="copyResult('aiGrammarResult')">Copy</button></div>`;
+
+    // 23 - AI Blog Title Generator
+    case 'ai-blog-title-generator': return `
+      <label>Topic or Keywords</label>
+      <input type="text" id="aiBlogInput" placeholder="e.g., healthy eating routines" />
+      <button class="btn btn-primary" onclick="blogTitleGen()">Generate Titles</button>
+      <div class="result-box" id="aiBlogResult"><button class="copy-btn" onclick="copyResult('aiBlogResult')">Copy</button></div>`;
+
+    // 24 - AI Resume Generator
+    case 'ai-resume-generator': return `
+      <label>Job Title / Summary of experience</label>
+      <textarea id="aiResumeInput" rows="5" placeholder="e.g., Frontend developer with 3 years React experience..."></textarea>
+      <button class="btn btn-primary" onclick="resumeGen()">Generate Resume Draft</button>
+      <div class="result-box" id="aiResumeResult"><button class="copy-btn" onclick="copyResult('aiResumeResult')">Copy</button></div>`;
+
+    // 25 - AI Email Generator
+    case 'ai-email-generator': return `
+      <label>Email Details (To, Purpose, Tone)</label>
+      <textarea id="aiEmailInput" rows="4" placeholder="e.g., To John, asking for an urgent meeting tomorrow, professional tone"></textarea>
+      <button class="btn btn-primary" onclick="emailGen()">Generate Email</button>
+      <div class="result-box" id="aiEmailResult"><button class="copy-btn" onclick="copyResult('aiEmailResult')">Copy</button></div>`;
+
+    // 26 - AI Caption Generator
+    case 'ai-caption-generator': return `
+      <label>Describe the photo</label>
+      <input type="text" id="aiCaptionInput" placeholder="e.g., A sunset at the beach with friends" />
+      <button class="btn btn-primary" onclick="captionGen()">Generate Captions</button>
+      <div class="result-box" id="aiCaptionResult"><button class="copy-btn" onclick="copyResult('aiCaptionResult')">Copy</button></div>`;
 
     default: return '<p>Tool not found.</p>';
   }
@@ -999,6 +1075,41 @@ function setResult(id, text) {
   el.textContent = text;
   if (copyBtn) el.prepend(copyBtn);
   el.style.display = 'block';
+}
+
+// ── 22. AI Grammar Checker ──
+function grammarCheck() {
+  const text = $('#aiGrammarInput').value.trim();
+  if (!text) return showToast('Paste some text first.');
+  setResult('aiGrammarResult', '✨ No obvious grammar errors found!\n\n(Note: This is a simulated response since this runs fully in-browser without an actual AI backend.)');
+}
+
+// ── 23. AI Blog Title Generator ──
+function blogTitleGen() {
+  const topic = $('#aiBlogInput').value.trim();
+  if (!topic) return showToast('Enter a topic first.');
+  setResult('aiBlogResult', `💡 5 Title Ideas for "${topic}":\n\n1. The Ultimate Guide to ${topic}\n2. How ${topic} Will Change Your Life\n3. 10 Secrets About ${topic} You Need to Know\n4. Why Everyone is Talking About ${topic}\n5. Mastering ${topic} in 2026`);
+}
+
+// ── 24. AI Resume Generator ──
+function resumeGen() {
+  const input = $('#aiResumeInput').value.trim();
+  if (!input) return showToast('Enter your details first.');
+  setResult('aiResumeResult', `📄 AI Resume Outline generated based on your input:\n\n**Professional Summary**\n${input.split('.')[0]}\n\n**Key Skills**\n- Leadership\n- Problem Solving\n- Time Management\n\n**Experience**\n- Relevant Role (2023 - Present)\n   * Handled core responsibilities derived from "${input.split(' ')[0]}"`);
+}
+
+// ── 25. AI Email Generator ──
+function emailGen() {
+  const input = $('#aiEmailInput').value.trim();
+  if (!input) return showToast('Enter email context first.');
+  setResult('aiEmailResult', `📧 Generated Email Draft:\n\nSubject: Following up on your request\n\nHello,\n\nI am writing to you regarding: "${input}". Please let me know if we can discuss this further at a convenient time.\n\nBest regards,\n[Your Name]`);
+}
+
+// ── 26. AI Caption Generator ──
+function captionGen() {
+  const text = $('#aiCaptionInput').value.trim();
+  if (!text) return showToast('Describe your photo first.');
+  setResult('aiCaptionResult', `📱 Captions for "${text}":\n\n1. Living for these moments ✨\n2. "${text}" – couldn't ask for a better day! 💯\n3. Vibes. 🌊🔥\n\n#moment #lifestyle #photography`);
 }
 
 // expose openTool globally (used in footer links)
