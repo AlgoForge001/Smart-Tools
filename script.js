@@ -54,12 +54,15 @@ const TOOLS = [
   { id: 'image-compressor', category: 'general', svg: svgs.compress, title: 'Image Compressor', desc: 'Compress images in-browser to reduce file size.' },
   { id: 'url-shortener', category: 'general', svg: svgs.link, title: 'URL Shortener', desc: 'Shorten long URLs using is.gd — free & instant.' },
   { id: 'password-strength', category: 'general', svg: svgs.shield, title: 'Password Strength Checker', desc: 'Check how strong your password really is.' },
-  { id: 'ai-text-summarizer', category: 'ai', svg: svgs.bot, title: 'Text Summarizer', desc: 'Summarize long text into key sentences instantly.' },
-  { id: 'ai-grammar-checker', category: 'ai', svg: svgs.aiGrammar, title: 'Grammar Checker', desc: 'Check your text for grammar, spelling, and style errors.' },
+
   { id: 'ai-blog-title-generator', category: 'ai', svg: svgs.aiIdea, title: 'Blog Title Generator', desc: 'Generate catchy and SEO-friendly blog titles.' },
   { id: 'ai-resume-generator', category: 'ai', svg: svgs.aiResume, title: 'Resume Generator', desc: 'Create professional resumes tailored to job descriptions.' },
   { id: 'ai-email-generator', category: 'ai', svg: svgs.aiEmail, title: 'Email Generator', desc: 'Draft professional emails quickly and effectively.' },
-  { id: 'ai-caption-generator', category: 'ai', svg: svgs.aiCaption, title: 'Caption Generator', desc: 'Generate engaging captions for your social media posts.' }
+  { id: 'ai-caption-generator', category: 'ai', svg: svgs.aiCaption, title: 'Caption Generator', desc: 'Generate engaging captions for your social media posts.' },
+  { id: 'ascii-to-decimal', category: 'general', svg: svgs.text, title: 'ASCII to Decimal', desc: 'Convert ASCII text to decimal numbers.' },
+  { id: 'decimal-to-ascii', category: 'general', svg: svgs.text, title: 'Decimal to ASCII', desc: 'Convert decimal numbers to ASCII text.' },
+  { id: 'decimal-to-binary', category: 'general', svg: svgs.refresh, title: 'Decimal to Binary', desc: 'Convert decimal numbers to binary.' },
+  { id: 'binary-to-decimal', category: 'general', svg: svgs.refresh, title: 'Binary to Decimal', desc: 'Convert binary code to decimal numbers.' }
 ];
 
 // ──────────────  DOM REFS  ──────────────
@@ -408,14 +411,6 @@ HSL: hsl(354, 76%, 60%)</div>`;
       <button class="btn btn-primary" onclick="genNames()">Generate Names</button>
       <div class="result-box" id="rnResult"><button class="copy-btn" onclick="copyResult('rnResult')">Copy</button></div>`;
 
-    // 17 — Text Summarizer
-    case 'ai-text-summarizer': return `
-      <label>Paste your text</label>
-      <textarea id="aiInput" rows="7" placeholder="Paste a long article, essay, or paragraph here…"></textarea>
-      <label>Number of sentences</label>
-      <input type="number" id="aiSentences" value="3" min="1" max="20" />
-      <button class="btn btn-primary" onclick="summarizeText()">Summarize</button>
-      <div class="result-box" id="aiResult"><button class="copy-btn" onclick="copyResult('aiResult')">Copy</button></div>`;
 
     // 18 — Pomodoro Study Timer
     case 'pomodoro-timer': return `
@@ -455,12 +450,6 @@ HSL: hsl(354, 76%, 60%)</div>`;
       <div class="strength-bar-container" style="height:8px;background:var(--surface);border-radius:4px;margin-bottom:16px;overflow:hidden;"><div id="psBar" style="height:100%;width:0%;border-radius:4px;transition:width .3s,background .3s;"></div></div>
       <div class="result-box" id="psResult"><button class="copy-btn" onclick="copyResult('psResult')">Copy</button></div>`;
 
-    // 22 - Grammar Checker
-    case 'ai-grammar-checker': return `
-      <label>Paste your text</label>
-      <textarea id="aiGrammarInput" rows="7" placeholder="Type or paste text to check..."></textarea>
-      <button class="btn btn-primary" onclick="grammarCheck()">Check Grammar</button>
-      <div class="result-box" id="aiGrammarResult"><button class="copy-btn" onclick="copyResult('aiGrammarResult')">Copy</button></div>`;
 
     // 23 - Blog Title Generator
     case 'ai-blog-title-generator': return `
@@ -489,6 +478,34 @@ HSL: hsl(354, 76%, 60%)</div>`;
       <input type="text" id="aiCaptionInput" placeholder="e.g., A sunset at the beach with friends" />
       <button class="btn btn-primary" onclick="captionGen()">Generate Captions</button>
       <div class="result-box" id="aiCaptionResult"><button class="copy-btn" onclick="copyResult('aiCaptionResult')">Copy</button></div>`;
+
+    // 27 - ASCII to Decimal
+    case 'ascii-to-decimal': return `
+      <label>Text (ASCII)</label>
+      <textarea id="asciiToDecInput" rows="4" placeholder="Type text here..."></textarea>
+      <button class="btn btn-primary" onclick="asciiToDec()">Convert to Decimal</button>
+      <div class="result-box" id="asciiToDecResult"><button class="copy-btn" onclick="copyResult('asciiToDecResult')">Copy</button></div>`;
+
+    // 28 - Decimal to ASCII
+    case 'decimal-to-ascii': return `
+      <label>Decimal (space-separated)</label>
+      <textarea id="decToAsciiInput" rows="4" placeholder="e.g. 72 101 108 108 111"></textarea>
+      <button class="btn btn-primary" onclick="decToAscii()">Convert to ASCII</button>
+      <div class="result-box" id="decToAsciiResult"><button class="copy-btn" onclick="copyResult('decToAsciiResult')">Copy</button></div>`;
+
+    // 29 - Decimal to Binary
+    case 'decimal-to-binary': return `
+      <label>Decimal format</label>
+      <textarea id="decToBinInput" rows="4" placeholder="Enter a number..."></textarea>
+      <button class="btn btn-primary" onclick="decToBin()">Convert to Binary</button>
+      <div class="result-box" id="decToBinResult"><button class="copy-btn" onclick="copyResult('decToBinResult')">Copy</button></div>`;
+
+    // 30 - Binary to Decimal
+    case 'binary-to-decimal': return `
+      <label>Binary format</label>
+      <textarea id="binToDecInput" rows="4" placeholder="e.g. 1010 1100"></textarea>
+      <button class="btn btn-primary" onclick="binToDec()">Convert to Decimal</button>
+      <div class="result-box" id="binToDecResult"><button class="copy-btn" onclick="copyResult('binToDecResult')">Copy</button></div>`;
 
     default: return '<p>Tool not found.</p>';
   }
@@ -849,33 +866,7 @@ function genNames() {
   setResult('rnResult', names.join('\n'));
 }
 
-// ── 17. Text Summarizer (extractive) ──
-function summarizeText() {
-  const text = $('#aiInput').value.trim();
-  const numSentences = Math.max(1, +$('#aiSentences').value || 3);
-  if (!text) return showToast('Paste some text first.');
 
-  // Split into sentences
-  const sentences = text.match(/[^.!?]+[.!?]+/g);
-  if (!sentences || sentences.length === 0) return setResult('aiResult', text);
-
-  // Score sentences by word frequency
-  const wordFreq = {};
-  const words = text.toLowerCase().replace(/[^a-z0-9\s]/g, '').split(/\s+/).filter(w => w.length > 3);
-  words.forEach(w => wordFreq[w] = (wordFreq[w] || 0) + 1);
-
-  const scored = sentences.map((s, i) => {
-    const sWords = s.toLowerCase().replace(/[^a-z0-9\s]/g, '').split(/\s+/);
-    const score = sWords.reduce((sum, w) => sum + (wordFreq[w] || 0), 0) / (sWords.length || 1);
-    return { text: s.trim(), score, index: i };
-  });
-
-  // Pick top N by score, then re-order by original position
-  const top = scored.sort((a, b) => b.score - a.score).slice(0, numSentences);
-  top.sort((a, b) => a.index - b.index);
-
-  setResult('aiResult', `📝 Summary (${top.length} sentences):\n\n${top.map(s => s.text).join(' ')}`);
-}
 
 // ── 18. Pomodoro Study Timer ──
 let pomRunning = false, pomSeconds = 0, pomTotal = 25 * 60, pomOnBreak = false, pomCycles = 0;
@@ -1077,12 +1068,7 @@ function setResult(id, text) {
   el.style.display = 'block';
 }
 
-// ── 22. Grammar Checker ──
-function grammarCheck() {
-  const text = $('#aiGrammarInput').value.trim();
-  if (!text) return showToast('Paste some text first.');
-  setResult('aiGrammarResult', '✨ No obvious grammar errors found!\n\n(Note: This is a simulated response since this runs fully in-browser without an actual backend.)');
-}
+
 
 // ── 23. Blog Title Generator ──
 function blogTitleGen() {
@@ -1110,6 +1096,40 @@ function captionGen() {
   const text = $('#aiCaptionInput').value.trim();
   if (!text) return showToast('Describe your photo first.');
   setResult('aiCaptionResult', `📱 Captions for "${text}":\n\n1. Living for these moments ✨\n2. "${text}" – couldn't ask for a better day! 💯\n3. Vibes. 🌊🔥\n\n#moment #lifestyle #photography`);
+}
+
+// ── 25. ASCII to Decimal ──
+function asciiToDec() {
+  const text = $('#asciiToDecInput').value;
+  if (!text) return showToast('Enter some text.');
+  const dec = text.split('').map(c => c.charCodeAt(0)).join(' ');
+  setResult('asciiToDecResult', dec);
+}
+
+// ── 26. Decimal to ASCII ──
+function decToAscii() {
+  const text = $('#decToAsciiInput').value.trim();
+  if (!text) return showToast('Enter decimals.');
+  try {
+    const ascii = text.split(/\s+/).map(n => String.fromCharCode(parseInt(n, 10))).join('');
+    setResult('decToAsciiResult', ascii);
+  } catch(e) {
+    setResult('decToAsciiResult', '❌ Invalid decimal sequence.');
+  }
+}
+
+// ── 27. Decimal to Binary ──
+function decToBin() {
+  const text = $('#decToBinInput').value.trim();
+  if (!text || isNaN(text)) return showToast('Enter a valid decimal number.');
+  setResult('decToBinResult', parseInt(text, 10).toString(2));
+}
+
+// ── 28. Binary to Decimal ──
+function binToDec() {
+  const text = $('#binToDecInput').value.trim().replace(/\s+/g, '');
+  if (!text || !/^[01]+$/.test(text)) return showToast('Enter a valid binary sequence.');
+  setResult('binToDecResult', parseInt(text, 2).toString(10));
 }
 
 // expose openTool globally (used in footer links)
