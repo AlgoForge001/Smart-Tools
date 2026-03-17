@@ -1132,5 +1132,128 @@ function binToDec() {
   setResult('binToDecResult', parseInt(text, 2).toString(10));
 }
 
+// ══════════════════════════════════════════════
+//   USER AUTHENTICATION
+// ══════════════════════════════════════════════
+
+const navAuthBtn = $('#navAuthBtn');
+const authModalOverlay = $('#authModalOverlay');
+const authModalClose = $('#authModalClose');
+const authForm = $('#authForm');
+const authUsername = $('#authUsername');
+const authPassword = $('#authPassword');
+const authSubmitBtn = $('#authSubmitBtn');
+const authToggleBtn = $('#authToggleBtn');
+const authToggleText = $('#authToggleText');
+const authModalTitle = $('#authModalTitle');
+
+let isLoginMode = true;
+const API_URL = 'http://localhost:3000';
+
+function updateAuthUI() {
+  const token = localStorage.getItem('token');
+  if (token) {
+    navAuthBtn.textContent = 'Logout';
+  } else {
+    navAuthBtn.textContent = 'Login';
+  }
+}
+
+navAuthBtn?.addEventListener('click', () => {
+  if (localStorage.getItem('token')) {
+    localStorage.removeItem('token');
+    localStorage.removeItem('username');
+    showToast('Logged out successfully.');
+    updateAuthUI();
+  } else {
+    openAuthModal();
+  }
+});
+
+function openAuthModal() {
+  authModalOverlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  authForm.reset();
+  isLoginMode = true;
+  updateAuthModalContent();
+}
+
+function closeAuthModal() {
+  authModalOverlay.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+authModalClose?.addEventListener('click', closeAuthModal);
+authModalOverlay?.addEventListener('click', (e) => {
+  if (e.target === authModalOverlay) closeAuthModal();
+});
+
+authToggleBtn?.addEventListener('click', (e) => {
+  e.preventDefault();
+  isLoginMode = !isLoginMode;
+  updateAuthModalContent();
+});
+
+function updateAuthModalContent() {
+  if (isLoginMode) {
+    authModalTitle.textContent = 'Login';
+    authSubmitBtn.textContent = 'Login';
+    authToggleText.textContent = "Don't have an account?";
+    authToggleBtn.textContent = 'Register';
+  } else {
+    authModalTitle.textContent = 'Register';
+    authSubmitBtn.textContent = 'Register';
+    authToggleText.textContent = 'Already have an account?';
+    authToggleBtn.textContent = 'Login';
+  }
+}
+
+authForm?.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const username = authUsername.value.trim();
+  const password = authPassword.value.trim();
+
+  if (!username || !password) return showToast('Please fill out all fields.');
+
+  authSubmitBtn.disabled = true;
+  authSubmitBtn.textContent = '⏳ Please wait...';
+
+  const endpoint = isLoginMode ? '/auth/login' : '/auth/register';
+
+  try {
+    const res = await fetch(`${API_URL}${endpoint}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username, password })
+    });
+    
+    const data = await res.json();
+    
+    if (res.ok) {
+      if (isLoginMode) {
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('username', data.username);
+        showToast(`Welcome back, ${data.username}!`);
+        closeAuthModal();
+        updateAuthUI();
+      } else {
+        showToast('Registration successful! Please login.');
+        isLoginMode = true;
+        updateAuthModalContent();
+      }
+    } else {
+      showToast('❌ ' + (data.error || 'Authentication failed.'));
+    }
+  } catch (err) {
+    showToast('❌ Server error or offline.');
+  } finally {
+    authSubmitBtn.disabled = false;
+    authSubmitBtn.textContent = isLoginMode ? 'Login' : 'Register';
+  }
+});
+
+// Init Auth UI on Load
+updateAuthUI();
+
 // expose openTool globally (used in footer links)
 window.openTool = openTool;
