@@ -1133,7 +1133,7 @@ function binToDec() {
 }
 
 // ══════════════════════════════════════════════
-//   USER AUTHENTICATION
+//   USER AUTHENTICATION (Client-side with localStorage)
 // ══════════════════════════════════════════════
 
 const navAuthBtn = $('#navAuthBtn');
@@ -1148,11 +1148,19 @@ const authToggleText = $('#authToggleText');
 const authModalTitle = $('#authModalTitle');
 
 let isLoginMode = true;
-const API_URL = `http://${window.location.hostname}:3000`;
+
+// Get stored users from localStorage (or empty array)
+function getUsers() {
+  try { return JSON.parse(localStorage.getItem('mt_users') || '[]'); }
+  catch { return []; }
+}
+function saveUsers(users) {
+  localStorage.setItem('mt_users', JSON.stringify(users));
+}
 
 function updateAuthUI() {
-  const token = localStorage.getItem('token');
-  if (token) {
+  const loggedIn = localStorage.getItem('mt_loggedIn');
+  if (loggedIn) {
     navAuthBtn.textContent = 'Logout';
   } else {
     navAuthBtn.textContent = 'Login';
@@ -1160,9 +1168,9 @@ function updateAuthUI() {
 }
 
 navAuthBtn?.addEventListener('click', () => {
-  if (localStorage.getItem('token')) {
-    localStorage.removeItem('token');
-    localStorage.removeItem('username');
+  if (localStorage.getItem('mt_loggedIn')) {
+    localStorage.removeItem('mt_loggedIn');
+    localStorage.removeItem('mt_username');
     showToast('Logged out successfully.');
     updateAuthUI();
   } else {
@@ -1208,47 +1216,38 @@ function updateAuthModalContent() {
   }
 }
 
-authForm?.addEventListener('submit', async (e) => {
+authForm?.addEventListener('submit', (e) => {
   e.preventDefault();
   const username = authUsername.value.trim();
   const password = authPassword.value.trim();
 
   if (!username || !password) return showToast('Please fill out all fields.');
 
-  authSubmitBtn.disabled = true;
-  authSubmitBtn.textContent = '⏳ Please wait...';
+  const users = getUsers();
 
-  const endpoint = isLoginMode ? '/auth/login' : '/auth/register';
-
-  try {
-    const res = await fetch(`${API_URL}${endpoint}`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username, password })
-    });
-    
-    const data = await res.json();
-    
-    if (res.ok) {
-      if (isLoginMode) {
-        localStorage.setItem('token', data.token);
-        localStorage.setItem('username', data.username);
-        showToast(`Welcome back, ${data.username}!`);
-        closeAuthModal();
-        updateAuthUI();
-      } else {
-        showToast('Registration successful! Please login.');
-        isLoginMode = true;
-        updateAuthModalContent();
-      }
+  if (isLoginMode) {
+    // LOGIN
+    const user = users.find(u => u.username === username && u.password === password);
+    if (user) {
+      localStorage.setItem('mt_loggedIn', 'true');
+      localStorage.setItem('mt_username', username);
+      showToast(`Welcome back, ${username}! 🎉`);
+      closeAuthModal();
+      updateAuthUI();
     } else {
-      showToast('❌ ' + (data.error || 'Authentication failed.'));
+      showToast('❌ Invalid username or password.');
     }
-  } catch (err) {
-    showToast('❌ Server error or offline.');
-  } finally {
-    authSubmitBtn.disabled = false;
-    authSubmitBtn.textContent = isLoginMode ? 'Login' : 'Register';
+  } else {
+    // REGISTER
+    if (users.find(u => u.username === username)) {
+      showToast('❌ Username already exists.');
+      return;
+    }
+    users.push({ username, password });
+    saveUsers(users);
+    showToast('Registration successful! Please login. ✅');
+    isLoginMode = true;
+    updateAuthModalContent();
   }
 });
 

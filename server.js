@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 const cors = require('cors');
 const sqlite3 = require('sqlite3').verbose();
 const bcrypt = require('bcrypt');
@@ -11,6 +12,9 @@ const SECRET_KEY = 'supersecret_multitools_key'; // In a real app, use environme
 // Middleware
 app.use(cors());
 app.use(express.json());
+
+// Serve frontend static files (index.html, style.css, script.js etc.)
+app.use(express.static(path.join(__dirname)));
 
 // Initialize SQLite Database
 const db = new sqlite3.Database('./users.db', (err) => {
