@@ -1148,7 +1148,7 @@ const authToggleText = $('#authToggleText');
 const authModalTitle = $('#authModalTitle');
 
 let isLoginMode = true;
-const API_URL = 'http://localhost:3000';
+const API_URL = `http://${window.location.hostname}:3000`;
 
 function updateAuthUI() {
   const token = localStorage.getItem('token');
